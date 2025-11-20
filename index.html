@@ -8,25 +8,26 @@
     body {
       background-color: #000;
       color: #FFD700;
-      font-family: 'Tahoma', sans-serif;
+      font-family: Tahoma, sans-serif;
       text-align: center;
       margin: 0;
       padding: 0;
     }
 
-.logo-banner {
-  width: 110px;
-  height: 110px;
-  border-radius: 50%;             /* يجعلها دائرية */
-  border: 3px solid #FFD700;      /* إطار ذهبي أنيق */
-  box-shadow: 0 0 6px #FFD700;    /* ظل خفيف */
-  object-fit: cover;              /* يملأ الدائرة بدون تشويه */
-  display: block;
-  margin: 20px auto 10px auto;    /* توسيط وتباعد مثالي */
-}
+    .logo-banner {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      border: 3px solid #FFD700;
+      box-shadow: 0 0 6px #FFD700;
+      object-fit: cover;
+      display: block;
+      margin: 20px auto 10px auto;
+    }
+
     h1 {
-      padding: 15px 10px;
       font-size: 24px;
+      margin-bottom: 20px;
     }
 
     .grid {
@@ -55,7 +56,7 @@
 </head>
 <body>
 
-  <img class="banner" src="https://i.pinimg.com/1200x/c3/09/ee/c309eea8b20b30078d04ab0bd6a5ab89.jpg" alt="صورة أعلى الصفحة">
+  <img class="logo-banner" src="data:image/png;base64,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
 
   <h1>العد التنازلي لمواعيد الصرف</h1>
 
@@ -107,6 +108,7 @@
 </body>
 
 </html>
+
 
 
 
