@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>العد التنازلي للدعم</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #FFD700;
+      font-family: 'Tahoma', sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      padding: 20px;
+      background-color: #111;
+    }
+
+    header img {
+      width: 90px;
+    }
+
+    h1 {
+      margin-top: 10px;
+      font-size: 28px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      padding: 30px;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    .card {
+      background-color: #222;
+      border: 2px solid #FFD700;
+      border-radius: 10px;
+      padding: 20px;
+      font-size: 18px;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 16px;
+      color: #FFD700;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Emblem_of_Saudi_Arabia.svg/600px-Emblem_of_Saudi_Arabia.svg.png" alt="شعار السعودية">
+    <h1>العد التنازلي لمواعيد الصرف</h1>
+  </header>
+
+  <div class="grid" id="countdownGrid"></div>
+
+  <footer>
+    ممدوح الرشيدي
+  </footer>
+
+  <script>
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth();
+
+    // تواريخ الصرف الرسمية
+    const events = [
+      { name: "الراتب", day: 27 },
+      { name: "التقاعد", day: 1 },
+      { name: "حساب المواطن", day: 10 },
+      { name: "الضمان المطور", day: 10 },
+      { name: "التأهيل الشامل", day: 10 },
+      { name: "دعم العقاري", day: 10 },
+      { name: "دعم مساند", day: 10 },
+      { name: "دعم ريف", day: 10 }
+    ];
+
+    function adjustWeekend(date) {
+      const day = date.getDay();
+      if (day === 5) { // الجمعة
+        date.setDate(date.getDate() - 1);
+      } else if (day === 6) { // السبت
+        date.setDate(date.getDate() + 1);
+      }
+      return date;
+    }
+
+    const grid = document.getElementById("countdownGrid");
+
+    events.forEach(event => {
+      let target = new Date(year, today.getDate() > event.day ? month + 1 : month, event.day);
+      target = adjustWeekend(target);
+
+      const diffTime = target - today;
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `<strong>${event.name}</strong><br>متبقي ${diffDays} يوم`;
+      grid.appendChild(card);
+    });
+  </script>
+
+</body>
+</html>
