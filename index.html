@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>العد التنازلي للدعم</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       background-color: #000;
@@ -13,26 +14,17 @@
       padding: 0;
     }
 
-    header {
-      padding: 20px;
-      background-color: #111;
-    }
-
-    header img {
-      width: 90px;
-    }
-
     h1 {
-      margin-top: 10px;
-      font-size: 28px;
+      padding: 20px 10px;
+      font-size: 24px;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-      padding: 30px;
-      max-width: 600px;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 15px;
+      padding: 20px;
+      max-width: 500px;
       margin: auto;
     }
 
@@ -40,23 +32,20 @@
       background-color: #222;
       border: 2px solid #FFD700;
       border-radius: 10px;
-      padding: 20px;
-      font-size: 18px;
+      padding: 15px;
+      font-size: 16px;
     }
 
     footer {
-      margin-top: 40px;
-      font-size: 16px;
+      margin: 30px 0;
+      font-size: 14px;
       color: #FFD700;
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Emblem_of_Saudi_Arabia.svg/600px-Emblem_of_Saudi_Arabia.svg.png" alt="شعار السعودية">
-    <h1>العد التنازلي لمواعيد الصرف</h1>
-  </header>
+  <h1>العد التنازلي لمواعيد الصرف</h1>
 
   <div class="grid" id="countdownGrid"></div>
 
@@ -69,25 +58,21 @@
     const year = today.getFullYear();
     const month = today.getMonth();
 
-    // تواريخ الصرف الرسمية
     const events = [
       { name: "الراتب", day: 27 },
       { name: "التقاعد", day: 1 },
+      { name: "الضمان المطور", day: 1 },
+      { name: "ساند", day: 1 },
       { name: "حساب المواطن", day: 10 },
-      { name: "الضمان المطور", day: 10 },
-      { name: "التأهيل الشامل", day: 10 },
-      { name: "دعم العقاري", day: 10 },
-      { name: "دعم مساند", day: 10 },
-      { name: "دعم ريف", day: 10 }
+      { name: "دعم ريف", day: 5 },
+      { name: "دعم العقاري", day: 24 },
+      { name: "التأهيل الشامل", day: 26 }
     ];
 
     function adjustWeekend(date) {
       const day = date.getDay();
-      if (day === 5) { // الجمعة
-        date.setDate(date.getDate() - 1);
-      } else if (day === 6) { // السبت
-        date.setDate(date.getDate() + 1);
-      }
+      if (day === 5) date.setDate(date.getDate() - 1); // الجمعة
+      else if (day === 6) date.setDate(date.getDate() + 1); // السبت
       return date;
     }
 
