@@ -30,6 +30,12 @@
       background-color: #111;
     }
 
+    .date-info {
+      margin-top: 10px;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
     h1 {
       padding: 10px 10px 0;
       font-size: 24px;
@@ -65,6 +71,8 @@
     <img src="logo.png" alt="شعار السعودية" class="logo">
   </div>
 
+  <div class="date-info" id="dateInfo"></div>
+
   <h1>العد التنازلي لمواعيد الصرف</h1>
 
   <div class="grid" id="countdownGrid"></div>
@@ -74,19 +82,29 @@
   </footer>
 
   <script>
+    const weekdays = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
     const today = new Date();
-    const year = today.getFullYear();
-    const month = today.getMonth();
+    const dayName = weekdays[today.getDay()];
+    const gregorianDate = today.toLocaleDateString("ar-SA", { year: 'numeric', month: 'long', day: 'numeric' });
+    const hijriDate = today.toLocaleDateString("ar-SA-u-ca-islamic", { year: 'numeric', month: 'long', day: 'numeric' });
+
+    document.getElementById("dateInfo").innerHTML = `
+      <strong>${dayName}</strong><br>
+      التاريخ الميلادي: ${gregorianDate}<br>
+      التاريخ الهجري: ${hijriDate}
+    `;
 
     const events = [
       { name: "الراتب", day: 27 },
       { name: "التقاعد", day: 1 },
-      { name: "الضمان المطور", day: 1 },
-      { name: "ساند", day: 1 },
-      { name: "حساب المواطن", day: 10 },
+      { name: "الضمان المطور", day: 10 },
+      { name: "ساند", day: 10 },
+      { name: "حافز", day: 5 },
       { name: "دعم ريف", day: 5 },
+      { name: "الدعم الزراعي", day: 1 },
+      { name: "حساب المواطن", day: 10 },
       { name: "الدعم العقاري", day: 24 },
-      { name: "التأهيل الشامل", day: 26 }
+      { name: "التأهيل الشامل", day: 10 }
     ];
 
     function adjustWeekend(date) {
@@ -96,25 +114,46 @@
       return date;
     }
 
-    const grid = document.getElementById("countdownGrid");
+    function updateCountdowns() {
+      const now = new Date();
+      const grid = document.getElementById("countdownGrid");
+      grid.innerHTML = "";
 
-    events.forEach(event => {
-      let target = new Date(year, month, event.day);
-      if (target < today) {
-        target = new Date(year, month + 1, event.day);
-      }
-      target = adjustWeekend(target);
+      const countdowns = events.map(event => {
+        let target = new Date(now.getFullYear(), now.getMonth(), event.day);
+        if (target < now) {
+          target = new Date(now.getFullYear(), now.getMonth() + 1, event.day);
+        }
+        target = adjustWeekend(target);
 
-      const diffTime = target - today;
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        const diff = target - now;
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
 
-      const card = document.createElement("div");
-      card.className = "card";
-      card.innerHTML = `<strong>${event.name}</strong><br>متبقي ${diffDays} يوم`;
-      grid.appendChild(card);
-    });
+        return {
+          name: event.name,
+          time: diff,
+          text: diff <= 0
+            ? "تم الصرف ✅"
+            : `متبقي ${days} يوم، ${hours} ساعة، ${minutes} دقيقة، ${seconds} ثانية`
+        };
+      });
+
+      countdowns.sort((a, b) => a.time - b.time);
+
+      countdowns.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `<strong>${item.name}</strong><br>${item.text}`;
+        grid.appendChild(card);
+      });
+    }
+
+    updateCountdowns();
+    setInterval(updateCountdowns, 1000);
   </script>
 
 </body>
 </html>
-
