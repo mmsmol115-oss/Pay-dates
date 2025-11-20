@@ -85,7 +85,13 @@
     const weekdays = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
     const today = new Date();
     const dayName = weekdays[today.getDay()];
-    const gregorianDate = today.toLocaleDateString("ar-SA", { year: 'numeric', month: 'long', day: 'numeric' });
+
+    const gregorianDate = today.toLocaleDateString("ar-SA-u-ca-gregory", {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+
     const hijriDate = today.toLocaleDateString("ar-SA-u-ca-islamic-umalqura", {
       year: 'numeric',
       month: 'long',
